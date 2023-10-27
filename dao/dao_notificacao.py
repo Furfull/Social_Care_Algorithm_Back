@@ -39,6 +39,32 @@ def CreateNotification(notification: Notification):
     
     except Error as erro:
         return {"Error: {}".format(erro)}
+    
+def CreateNotificationLoc(notification: Notification):
+
+    try:
+        connection, cursor = connect_database()
+
+        query = f""" INSERT INTO sca_db.notification(
+        date,
+        text,
+        user_id)
+        VALUES (NOW(),
+        "Vimos seu post: \n {notification.text} \n para sua segurança, recomendamos que não compartilhe sua localização em tempo real, \n conte com a SCA sempre!",
+        "{notification.user_id}");
+        """
+
+        cursor.execute(query)
+        connection.commit()
+
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+
+        return notification
+    
+    except Error as erro:
+        return {"Error: {}".format(erro)}
 
 def Getnotification(user_id: int):
 

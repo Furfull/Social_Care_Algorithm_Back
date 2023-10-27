@@ -4,7 +4,7 @@ from .send_sms import send
 from app.dao.dao_feed import CreateFeed
 from app.schemas.feed import Feed
 from app.schemas.notificacao import Notification
-from app.dao.dao_notificacao import CreateNotification
+from app.dao.dao_notificacao import CreateNotification, CreateNotificationLoc
 
 def persist_data():
 
@@ -39,6 +39,9 @@ def persist_data():
                        neutral="null")
         try:
             CreateFeed(feedLoc)
+            noti = Notification(text=analysed_text["text"],
+                    user_id=1)
+            CreateNotificationLoc(noti)
         except Exception as e:
             raise e
 
