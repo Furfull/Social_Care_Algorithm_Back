@@ -54,7 +54,7 @@ def create_feed(feed: schemas_feed.Feed):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"msg": "Erro to create"})
 
-@router.post('/analyse-facebook/')
+@router.get('/analyse-facebook/')
 def persist_data_in():
 
     login = persist_data()

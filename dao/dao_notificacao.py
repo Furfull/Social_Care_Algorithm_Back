@@ -1,6 +1,18 @@
 from app.dao.dao import connect_database
 from app.schemas.notificacao import Notification
 from mysql.connector import Error
+import random 
+
+lista = [
+    "Estamos aqui para ajudar!",
+    "Você não está sozinho(a)",
+    "Sua força é inspiradora, e estamos aqui para apoiá-lo(a)",
+    "Conte conosco",
+    "Não se culpe por sentir-se assim",
+    "Não tenha medo de pedir ajuda"
+    ]
+
+call = "Caso precise clique em Ajuda!"
 
 def CreateNotification(notification: Notification):
 
@@ -12,7 +24,7 @@ def CreateNotification(notification: Notification):
         text,
         user_id)
         VALUES (NOW(),
-        "{notification.text}",
+        "Vimos seu post: \n {notification.text} \n {random.sample(lista, 1)[0]} \n {call}",
         "{notification.user_id}");
         """
 
