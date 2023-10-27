@@ -1,8 +1,10 @@
 from .sentimental_analysis import sample_analyze_sentiment
 from .facebook_gather import FacebookApi
+from .send_sms import send
 from app.dao.dao_feed import CreateFeed
 from app.schemas.feed import Feed
-
+from app.schemas.notificacao import Notification
+from app.dao.dao_notificacao import CreateNotification
 
 def persist_data():
 
@@ -18,9 +20,14 @@ def persist_data():
                     positive=analysed_text["positive"],
                     negative=analysed_text["negative"],
                     neutral=analysed_text["neutral"])
-        
+
         try:
             CreateFeed(feed)
+            if analysed_text["overview"] == "negative":
+                noti = Notification(text=analysed_text["text"],
+                    user_id=1)
+                CreateNotification(noti)
+                send()
         except Exception as e:
             raise e
 
@@ -34,5 +41,7 @@ def persist_data():
             CreateFeed(feedLoc)
         except Exception as e:
             raise e
+
+
 
     return "OK"
